@@ -1,9 +1,9 @@
-import React, { useState, Suspense, useContext, useEffect, useRef } from 'react';
+import React, { useState, Suspense, useContext, useEffect } from 'react';
 import { TreeContextType, AppState, TreeContext, PointerCoords } from './types';
 import Experience from './components/Experience';
-import GestureInput from './components/GestureInput';
 import TechEffects from './components/TechEffects';
 import { AnimatePresence, motion } from 'framer-motion';
+import InputController from './components/InputController';
 
 
 // --- 梦幻光标组件 ---
@@ -88,7 +88,7 @@ const PhotoModal: React.FC<{ url: string | null, onClose: () => void }> = ({ url
 }
 
 const AppContent: React.FC = () => {
-    const { state, setState, webcamEnabled, setWebcamEnabled, pointer, hoverProgress, selectedPhotoUrl, setSelectedPhotoUrl, clickTrigger } = useContext(TreeContext) as TreeContextType;
+    const { state, setState, pointer, hoverProgress, selectedPhotoUrl, setSelectedPhotoUrl, clickTrigger } = useContext(TreeContext) as TreeContextType;
 
     useEffect(() => {
         if (selectedPhotoUrl && pointer) {
@@ -105,8 +105,8 @@ const AppContent: React.FC = () => {
 
     return (
         <main className="relative w-full h-screen bg-black text-white overflow-hidden cursor-none">
-            {/* 摄像头背景层 (z-0) */}
-            {webcamEnabled && <GestureInput />}
+            {/* 交互控制器 */}
+            <InputController />
 
             {/* 3D 场景层 (z-10) */}
             <div className="absolute inset-0 z-10">
@@ -116,7 +116,7 @@ const AppContent: React.FC = () => {
             </div>
 
             {/* 科技感特效层 (z-20) */}
-            {webcamEnabled && <TechEffects />}
+            <TechEffects />
 
             {/* UI 层 (z-30) */}
             <div className="absolute inset-0 z-30 pointer-events-none flex flex-col justify-between p-8">
@@ -147,7 +147,6 @@ const App: React.FC = () => {
     const [state, setState] = useState<AppState>('CHAOS');
     const [rotationSpeed, setRotationSpeed] = useState<number>(0.3); // 固定基础旋转速度
     const [rotationBoost, setRotationBoost] = useState<number>(0); // 额外加速度
-    const [webcamEnabled, setWebcamEnabled] = useState<boolean>(true);
     const [pointer, setPointer] = useState<PointerCoords | null>(null);
     const [hoverProgress, setHoverProgress] = useState<number>(0);
     const [clickTrigger, setClickTrigger] = useState<number>(0);
@@ -159,7 +158,6 @@ const App: React.FC = () => {
         <TreeContext.Provider value={{
             state, setState,
             rotationSpeed, setRotationSpeed,
-            webcamEnabled, setWebcamEnabled,
             pointer, setPointer,
             hoverProgress, setHoverProgress,
             clickTrigger, setClickTrigger,

@@ -13,8 +13,6 @@ export interface TreeContextType {
   setState: (state: AppState) => void;
   rotationSpeed: number;
   setRotationSpeed: (speed: number) => void;
-  webcamEnabled: boolean;
-  setWebcamEnabled: (enabled: boolean) => void;
 
   // --- 交互状态 ---
   pointer: PointerCoords | null;   // 指针位置

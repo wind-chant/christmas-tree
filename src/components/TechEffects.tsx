@@ -38,7 +38,7 @@ const TechEffects: React.FC = () => {
           SYSTEM ACTIVE
         </div>
         <div className="absolute top-6 right-32 text-cyan-400/60 font-mono text-[10px] tracking-wider">
-          GESTURE TRACKING
+          MOUSE / TOUCH CONTROL
         </div>
       </div>
 
